@@ -88,8 +88,9 @@ public class Stock<T extends Duck> {
      * Conseil : appelez isDefective() plutôt que de comparer le score manuellement.
      */
     public int countDefective() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.countDefective()");
+        return (int) items.stream()
+                .filter(Duck::isDefective)
+                .count();
     }
 
     /**
@@ -100,7 +101,15 @@ public class Stock<T extends Duck> {
      * Tous les types doivent apparaître dans la map (avec 0 si absent).
      */
     public Map<DuckType, Integer> countByType() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.countByType()");
+        Map<DuckType, Integer> counts = new java.util.EnumMap<>(DuckType.class);
+        for (DuckType type : DuckType.values()) {
+            counts.put(type, 0);
+        }
+
+        for (T duck : items) {
+            counts.compute(duck.getType(), (type, current) -> current + 1);
+        }
+
+        return counts;
     }
 }

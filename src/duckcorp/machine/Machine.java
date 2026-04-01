@@ -9,49 +9,55 @@ import java.util.Random;
  * Classe abstraite représentant une machine de production.
  *
  * TODO (Ex2) :
- *   - Faites implémenter l'interface Maintainable à cette classe
- *   - Implémentez maintain()
- *   - Implémentez produceDuck(), getPurchaseCost(), getName() dans les sous-classes
+ * - Faites implémenter l'interface Maintainable à cette classe
+ * - Implémentez maintain()
+ * - Implémentez produceDuck(), getPurchaseCost(), getName() dans les
+ * sous-classes
+ * 
  * @author Roussille Philippe <roussille@3il.fr>
  */
-public abstract class Machine {
+public abstract class Machine implements Maintainable {
 
     private static final Random RANDOM = new Random();
 
     private final DuckType producedType;
-    private final int      capacity;
-    private int            condition;
-    private final int      maintenanceCost;
+    private final int capacity;
+    private int condition;
+    private final int maintenanceCost;
 
     /** Constructeur fourni. */
     protected Machine(DuckType producedType, int capacity, int maintenanceCost) {
-        this.producedType    = producedType;
-        this.capacity        = capacity;
-        this.condition       = 100;
+        this.producedType = producedType;
+        this.capacity = capacity;
+        this.condition = 100;
         this.maintenanceCost = maintenanceCost;
     }
 
     // --- Getters fournis ---
 
-    public DuckType getProducedType()    { return producedType; }
-    public int      getCapacity()        { return capacity; }
-    public int      getMaintenanceCost() { return maintenanceCost; }
+    public DuckType getProducedType() {
+        return producedType;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getMaintenanceCost() {
+        return maintenanceCost;
+    }
 
     /**
      * Retourne l'état courant de la machine (entre 0 et 100).
      * Fourni — satisfera automatiquement Maintainable.getCondition() quand vous
      * ajouterez implements Maintainable.
      */
-    public int getCondition() { return condition; }
+    public int getCondition() {
+        return condition;
+    }
 
-    // --- TODO : maintain() ---
-
-    /**
-     * Effectue une maintenance : augmente condition de 40 points, plafonnée à 100.
-     * TODO (Ex2) : implémentez cette méthode.
-     */
     public void maintain() {
-        throw new UnsupportedOperationException("TODO : Machine.maintain()");
+        condition = Math.min(100, condition + 40);
     }
 
     // --- Méthodes fournies ---
@@ -69,15 +75,17 @@ public abstract class Machine {
      * À appeler dans produceDuck(). Ne pas modifier.
      */
     protected final int computeQuality() {
-        int base      = (int) (condition * 0.7);
+        int base = (int) (condition * 0.7);
         int variation = RANDOM.nextInt(31);
         return Math.min(100, base + variation);
     }
 
     // --- Méthodes abstraites à implémenter dans les sous-classes ---
 
-    public abstract Duck   produceDuck();
-    public abstract int    getPurchaseCost();
+    public abstract Duck produceDuck();
+
+    public abstract int getPurchaseCost();
+
     public abstract String getName();
 
     // --- toString fourni ---

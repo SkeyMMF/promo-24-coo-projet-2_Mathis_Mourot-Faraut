@@ -8,10 +8,11 @@ import duckcorp.stock.Stock;
  * Commande client : demande un certain nombre de canards d'un type donné.
  *
  * TODO (Ex4) :
- *   - Implémentez getTotalValue(), canBeFulfilled(), fulfill()
- *   - Implémentez equals() et hashCode() basés sur l'id
+ * - Implémentez getTotalValue(), canBeFulfilled(), fulfill()
+ * - Implémentez equals() et hashCode() basés sur l'id
  *
  * Les getters et tick() sont fournis.
+ * 
  * @author Roussille Philippe <roussille@3il.fr>
  */
 public class Order {
@@ -29,22 +30,39 @@ public class Order {
      * Constructeur fourni.
      */
     public Order(DuckType duckType, int quantity, double pricePerUnit, int turnsRemaining) {
-        this.id             = String.format("CMD-%03d", ++counter);
-        this.duckType       = duckType;
-        this.quantity       = quantity;
-        this.pricePerUnit   = pricePerUnit;
+        this.id = String.format("CMD-%03d", ++counter);
+        this.duckType = duckType;
+        this.quantity = quantity;
+        this.pricePerUnit = pricePerUnit;
         this.turnsRemaining = turnsRemaining;
-        this.status         = OrderStatus.PENDING;
+        this.status = OrderStatus.PENDING;
     }
 
     // --- Getters fournis ---
 
-    public String      getId()              { return id; }
-    public DuckType    getDuckType()        { return duckType; }
-    public int         getQuantity()        { return quantity; }
-    public double      getPricePerUnit()    { return pricePerUnit; }
-    public int         getTurnsRemaining()  { return turnsRemaining; }
-    public OrderStatus getStatus()          { return status; }
+    public String getId() {
+        return id;
+    }
+
+    public DuckType getDuckType() {
+        return duckType;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public double getPricePerUnit() {
+        return pricePerUnit;
+    }
+
+    public int getTurnsRemaining() {
+        return turnsRemaining;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
 
     // --- Méthode fournie ---
 
@@ -67,8 +85,7 @@ public class Order {
      * Retourne la valeur totale de la commande (pricePerUnit * quantity).
      */
     public double getTotalValue() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.getTotalValue()");
+        return pricePerUnit * quantity;
     }
 
     /**
@@ -79,8 +96,7 @@ public class Order {
      * dont le type générique étend Duck, pas seulement Stock<Duck>.
      */
     public boolean canBeFulfilled(Stock<? extends Duck> stock) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.canBeFulfilled()");
+        return stock.count(duckType) >= quantity;
     }
 
     /**
@@ -88,8 +104,7 @@ public class Order {
      * Appelée par Factory.fulfillOrder() après retrait du stock.
      */
     public void fulfill() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.fulfill()");
+        status = OrderStatus.FULFILLED;
     }
 
     /**
@@ -97,8 +112,11 @@ public class Order {
      */
     @Override
     public boolean equals(Object o) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.equals()");
+        if (this == o)
+            return true;
+        if (!(o instanceof Order order))
+            return false;
+        return id.equals(order.id);
     }
 
     /**
@@ -106,8 +124,7 @@ public class Order {
      */
     @Override
     public int hashCode() {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Order.hashCode()");
+        return id.hashCode();
     }
 
     // --- toString fourni ---

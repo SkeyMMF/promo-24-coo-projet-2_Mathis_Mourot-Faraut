@@ -55,8 +55,23 @@ public class Stock<T extends Duck> {
      * Attention à la signature de retour : elle doit conserver le type générique T.
      */
     public List<T> remove(DuckType type, int count) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.remove()");
+
+        List<T> removed = new ArrayList<>(count);
+        var iterator = items.iterator();
+
+        while (iterator.hasNext() && removed.size() < count) {
+            T duck = iterator.next();
+            if (duck.getType() == type) {
+                removed.add(duck);
+                iterator.remove();
+            }
+        }
+
+        if (removed.size() != count) {
+            throw new IllegalStateException("Stock insuffisant pour retirer : " + count + " canard(s) de type " + type);
+        }
+
+        return removed;
     }
 
     /**

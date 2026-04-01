@@ -77,8 +77,12 @@ public class Factory {
      * @return true si l'achat a réussi, false si budget insuffisant
      */
     public boolean buyMachine(Machine machine) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Factory.buyMachine()");
+        if (budget >= machine.getPurchaseCost()) {
+            budget -= machine.getPurchaseCost();
+            machines.add(machine);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -88,8 +92,12 @@ public class Factory {
      * @return true si la maintenance a réussi, false si budget insuffisant
      */
     public boolean maintainMachine(Machine machine) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Factory.maintainMachine()");
+        if (budget >= machine.getMaintenanceCost()) {
+            budget -= machine.getMaintenanceCost();
+            machine.maintain();
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.Map;
  * Stock générique de canards.
  *
  * TODO (Ex3) :
- *   - Implémentez remove(), count(), countDefective(), countByType()
+ * - Implémentez remove(), count(), countDefective(), countByType()
  *
  * Les méthodes add(), getAll() et total() sont fournies.
  *
@@ -49,28 +49,24 @@ public class Stock<T extends Duck> {
      * @param type  le type de canard à retirer
      * @param count le nombre à retirer
      * @return la liste des canards retirés
-     * @throws IllegalStateException si le stock ne contient pas assez de canards du type demandé
+     * @throws IllegalStateException si le stock ne contient pas assez de canards du
+     *                               type demandé
      *
-     * Conseil : parcourez items en une seule passe.
-     * Attention à la signature de retour : elle doit conserver le type générique T.
+     *                               Conseil : parcourez items en une seule passe.
+     *                               Attention à la signature de retour : elle doit
+     *                               conserver le type générique T.
      */
     public List<T> remove(DuckType type, int count) {
-
-        List<T> removed = new ArrayList<>(count);
-        var iterator = items.iterator();
-
-        while (iterator.hasNext() && removed.size() < count) {
-            T duck = iterator.next();
-            if (duck.getType() == type) {
-                removed.add(duck);
-                iterator.remove();
-            }
-        }
+        List<T> removed = items.stream()
+                .filter(duck -> duck.getType() == type)
+                .limit(count)
+                .toList();
 
         if (removed.size() != count) {
             throw new IllegalStateException("Stock insuffisant pour retirer : " + count + " canard(s) de type " + type);
         }
 
+        items.removeAll(removed);
         return removed;
     }
 
@@ -80,8 +76,9 @@ public class Stock<T extends Duck> {
      * @param type le type à compter
      */
     public int count(DuckType type) {
-        // TODO
-        throw new UnsupportedOperationException("TODO : Stock.count()");
+        return (int) items.stream()
+                .filter(duck -> duck.getType() == type)
+                .count();
     }
 
     /**
